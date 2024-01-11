@@ -12,6 +12,8 @@
 //  Questions, comments, or requests for clarification: http://ArsenalRecon.com/contact/
 // 
 
+using Arsenal.ImageMounterCache;
+using DiscUtils;
 using DiscUtils.Streams.Compatibility;
 using System;
 using System.IO;
@@ -39,6 +41,7 @@ public class DevioProviderFromStream : IDevioProvider
     /// </summary>
     public bool OwnsBaseStream { get; }
 
+    public Cache _cache { get; }
     /// <summary>
     /// Creates an object implementing IDevioProvider interface with I/O redirected
     /// to an object of a class derived from System.IO.Stream.
@@ -50,6 +53,8 @@ public class DevioProviderFromStream : IDevioProvider
     {
         BaseStream = Stream;
         OwnsBaseStream = ownsStream;
+        _cache = new Cache();
+        _cache.Initialize();
     }
 
     /// <summary>
@@ -85,7 +90,7 @@ public class DevioProviderFromStream : IDevioProvider
     public event EventHandler? Disposing;
     public event EventHandler? Disposed;
 
-    public int Read(nint buffer, int bufferoffset, int count, long fileoffset)
+    public int ReadOriginal(nint buffer, int bufferoffset, int count, long fileoffset)
     {
 
         BaseStream.Position = fileoffset;
@@ -99,6 +104,20 @@ public class DevioProviderFromStream : IDevioProvider
         }
 
         var mem = Extensions.BufferExtensions.AsSpan(buffer + bufferoffset, count);
+        return BaseStream.Read(mem);
+
+    }
+
+    public int Read(nint buffer, int bufferoffset, int count, long fileoffset)
+    {
+        BaseStream.Position = fileoffset;
+
+        if (BaseStream.Position <= BaseStream.Length && count > BaseStream.Length - BaseStream.Position)
+        {
+            count = (int)(BaseStream.Length - BaseStream.Position);
+        }
+        var mem = Extensions.BufferExtensions.AsSpan(buffer + bufferoffset, count);
+        return _cache.Read(mem, fileoffset);
         return BaseStream.Read(mem);
 
     }

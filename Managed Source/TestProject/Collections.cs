@@ -1,6 +1,7 @@
 ﻿using Arsenal.ImageMounter.Collections;
 using Arsenal.ImageMounter.Extensions;
 using DiscUtils.Streams;
+using LTRData.Extensions.Buffers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

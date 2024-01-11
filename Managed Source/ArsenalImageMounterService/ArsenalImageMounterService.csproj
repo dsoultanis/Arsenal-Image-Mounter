@@ -12,6 +12,7 @@
 
   <PropertyGroup>
     <PackageId>Arsenal.ImageMounter.Cli</PackageId>
+    <TargetFrameworks>net48</TargetFrameworks>
   </PropertyGroup>
   
   <ItemGroup>

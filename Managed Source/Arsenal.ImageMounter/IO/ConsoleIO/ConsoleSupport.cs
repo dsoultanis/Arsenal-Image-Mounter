@@ -12,12 +12,14 @@ using Arsenal.ImageMounter.Collections;
 using Arsenal.ImageMounter.Extensions;
 using Arsenal.ImageMounter.Reflection;
 using DiscUtils.Streams;
+using LTRData.Extensions.Buffers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BufferExtensions = Arsenal.ImageMounter.Extensions.BufferExtensions;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable IDE0057 // Use range operator
@@ -65,7 +67,7 @@ public static class ConsoleSupport
             result.Length = 0;
             line.Length = 0;
 
-            var origLine = origLineIt.TrimEnd('\r');
+            var origLine = BufferExtensions.TrimEnd(origLineIt, '\r');
 
             foreach (var Word in origLine.Split(WordDelimiter))
             {
@@ -158,7 +160,7 @@ public static class ConsoleSupport
             }
             else if (arg.StartsWith("--", StringComparison.Ordinal)
                 || Path.DirectorySeparatorChar != '/'
-                && arg.StartsWith('/'))
+                && BufferExtensions.StartsWith(arg, '/'))
             {
                 var namestart = 1;
                 if (arg[0] == '-')
@@ -188,7 +190,7 @@ public static class ConsoleSupport
 
                 yield return new(name, value);
             }
-            else if (arg.StartsWith('-'))
+            else if (BufferExtensions.StartsWith(arg, '-'))
             {
                 for (int i = 1, loopTo = arg.Length - 1; i <= loopTo; i++)
                 {

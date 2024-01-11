@@ -5,6 +5,7 @@
   <PropertyGroup>
     <Description>Arsenal Image Mounter .NET API Library</Description>
     <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+    <TargetFrameworks>net48</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,10 @@
 
   <ItemGroup Condition="'$(TargetFramework.StartsWith(`net4`))'">
     <Reference Include="System.ServiceProcess" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Arsenal.ImageMounterCache\Arsenal.ImageMounterCache.csproj" />
   </ItemGroup>
 
 </Project>

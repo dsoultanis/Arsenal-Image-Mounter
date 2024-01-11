@@ -38,6 +38,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SingleValueEnumerable = LTRData.Extensions.Buffers.SingleValueEnumerable;
 
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
